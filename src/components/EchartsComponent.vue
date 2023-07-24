@@ -6,7 +6,12 @@ export default {
 
 <template>
   <div>
-    <p class="mt-5 mb-3">查询结果: {{ data }}</p>
+    <div class="mt-5 mb-3">
+      查询结果:
+      <p style="font-weight: bold">
+        {{ data }}
+      </p>
+    </div>
   </div>
 </template>
 
