@@ -37,7 +37,7 @@
       <p class="mt-5 mb-3">
         连接状态：<span id="status">{{ status }}</span>
       </p>
-      <p class="mb-3" v-if="!isChatMode">
+      <p class="mb-3" v-if="!isChatMode || querySent">
         GPT回复：<span id="message">{{ message }}</span>
       </p>
       <div v-if="isChatMode" class="chat-box">
@@ -96,6 +96,7 @@ export default {
       messages: [],
       isClear: false,
       tempLength: 0,
+      querySent: false,
     };
   },
   methods: {
@@ -194,9 +195,9 @@ export default {
     },
     query() {
       let messageReceived = false;
-      const data = { input: this.input };
+      const data = { input: this.inputQuery.inputValue };
       const url = `http://localhost:4536/chat?input=${encodeURIComponent(
-        this.input
+        this.inputQuery.inputValue
       )}`;
       const eventSource = new EventSource(url, {
         method: "GET",
@@ -208,6 +209,7 @@ export default {
 
       eventSource.onopen = () => {
         this.status = "已连接";
+        this.querySent = true;
       };
 
       eventSource.onmessage = (event) => {
