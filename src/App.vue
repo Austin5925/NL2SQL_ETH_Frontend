@@ -100,6 +100,12 @@ export default {
     };
   },
   methods: {
+    checkNotEmpty() {
+      if (this.inputQuery.inputValue.trim() === "") {
+        alert("输入不能为空！");
+        return;
+      }
+    },
     submit() {
       if (this.isChatMode) {
         this.chat();
@@ -119,6 +125,7 @@ export default {
         });
     },
     chat() {
+      this.checkNotEmpty();
       let messageReceived = false;
       const data = { input: this.inputQuery.inputValue };
       const url = `http://localhost:4536/multi-round-chat?input=${encodeURIComponent(
@@ -194,6 +201,7 @@ export default {
       };
     },
     query() {
+      this.checkNotEmpty();
       let messageReceived = false;
       const data = { input: this.inputQuery.inputValue };
       const url = `http://localhost:4536/chat?input=${encodeURIComponent(
