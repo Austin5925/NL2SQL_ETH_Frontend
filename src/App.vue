@@ -38,7 +38,7 @@
         </button>
       </div>
       <PromptWindow
-        v-if="isPromptOpen"
+        v-show="isPromptOpen"
         v-model="prompt"
         class="PromptWindow"
         @prompt-cancel="promptCancel"
@@ -108,7 +108,6 @@ export default {
       tempLength: 0,
       querySent: false,
       prompt: {},
-      promptOriginal: {},
       isPromptOpen: false,
     };
   },
@@ -123,26 +122,32 @@ export default {
         .then((response) => {
           console.log(response.data.data);
           this.prompt = response.data.data;
-          this.promptOriginal = response.data.data;
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    promptSave() {
+    promptSave(promptType) {
+      console.log(this.prompt.promptBaseChat);
+      console.log(this.prompt.promptBaseQuery);
+
+      console.log(promptType);
       axios
         .post("http://localhost:4536/promptUpdate", {
-          prompt: this.prompt,
+          prompt: promptType
+            ? this.prompt.promptBaseChat
+            : this.prompt.promptBaseQuery,
+          prompt_type: promptType,
         })
         .then((response) => {
-          console.log(response.data.data);
+          console.log(response.data);
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.response.data);
         });
     },
     promptReset() {
-      this.prompt = this.promptOriginal;
+      // dummy
     },
     checkNotEmpty() {
       if (this.inputQuery.inputValue.trim() === "") {
@@ -261,6 +266,7 @@ export default {
       eventSource.onopen = () => {
         this.status = "已连接";
         this.querySent = true;
+        this.echartsRes = "回复生成中，请等待...";
       };
 
       eventSource.onmessage = (event) => {

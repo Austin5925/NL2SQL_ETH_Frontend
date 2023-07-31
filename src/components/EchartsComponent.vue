@@ -1,3 +1,19 @@
+<template>
+  <div>
+    <p class="mt-5 mb-3">
+      查询结果：
+      <span style="font-weight: bold">
+        {{ data }}
+      </span>
+    </p>
+    <div v-show="hasTable">
+      <p class="mt-5 mb-3">数据图表：</p>
+      <!-- 数据展示 -->
+      <div id="table-result"></div>
+    </div>
+  </div>
+</template>
+
 <script>
 // import { GridComponent, TooltipComponent } from "echarts/components";
 // import { CanvasRenderer } from "echarts/renderers";
@@ -106,21 +122,5 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div>
-    <p class="mt-5 mb-3">
-      查询结果：
-      <span style="font-weight: bold">
-        {{ data }}
-      </span>
-    </p>
-    <div v-show="hasTable">
-      <p class="mt-5 mb-3">数据图表：</p>
-      <!-- 数据展示 -->
-      <div id="table-result"></div>
-    </div>
-  </div>
-</template>
 
 <style scoped></style>
