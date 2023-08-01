@@ -33,12 +33,21 @@
         >
           查询
         </button>
+        <button id="prompt-open" @click="promptOpen" class="btn btn-success">
+          更改提示词
+        </button>
       </div>
+      <PromptWindow
+        v-show="isPromptOpen"
+        v-model="prompt"
+        class="PromptWindow"
+        @prompt-cancel="promptCancel"
+        @prompt-save="promptSave"
+        @prompt-reset="promptReset"
+        :propPromptValue.sync="prompt"
+      />
       <p class="mt-5 mb-3">
         连接状态：<span id="status">{{ status }}</span>
-      </p>
-      <p class="mb-3" v-if="!isChatMode || querySent">
-        GPT回复：<span id="message">{{ message }}</span>
       </p>
       <div v-if="isChatMode" class="chat-box">
         <div
@@ -51,6 +60,9 @@
           </div>
         </div>
       </div>
+      <p class="mb-3" v-if="!isChatMode || querySent">
+        GPT回复：<span id="message">{{ message }}</span>
+      </p>
       <p class="mt-5 mb-3">
         <echarts-component
           ref="EchartsComponent"
@@ -70,14 +82,12 @@ import { CanvasRenderer } from "echarts/renderers";
 import { BarChart } from "echarts/charts";
 import { GridComponent, TooltipComponent } from "echarts/components";
 import EchartsComponent from "@/components/EchartsComponent.vue";
+import PromptWindow from "@/components/PromptWindow.vue";
 
 echarts.use([CanvasRenderer, BarChart, GridComponent, TooltipComponent]);
 export default {
   name: "App",
-  components: { EchartsComponent },
-  props: {
-    // todo
-  },
+  components: { EchartsComponent, PromptWindow },
   setup() {
     const inputQuery = reactive({
       inputValue: "",
@@ -97,13 +107,51 @@ export default {
       isClear: false,
       tempLength: 0,
       querySent: false,
+      prompt: {},
+      isPromptOpen: false,
     };
   },
   methods: {
+    promptCancel() {
+      this.isPromptOpen = false;
+    },
+    promptOpen() {
+      this.isPromptOpen = true;
+      axios
+        .get("http://localhost:4536/prompt")
+        .then((response) => {
+          console.log(response.data.data);
+          this.prompt = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    promptSave(promptType) {
+      console.log(this.prompt.promptBaseChat);
+      console.log(this.prompt.promptBaseQuery);
+
+      console.log(promptType);
+      axios
+        .post("http://localhost:4536/promptUpdate", {
+          prompt: promptType
+            ? this.prompt.promptBaseChat
+            : this.prompt.promptBaseQuery,
+          prompt_type: promptType,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    },
+    promptReset() {
+      // dummy
+    },
     checkNotEmpty() {
       if (this.inputQuery.inputValue.trim() === "") {
         alert("输入不能为空！");
-        return;
       }
     },
     submit() {
@@ -218,6 +266,7 @@ export default {
       eventSource.onopen = () => {
         this.status = "已连接";
         this.querySent = true;
+        this.echartsRes = "回复生成中，请等待...";
       };
 
       eventSource.onmessage = (event) => {
@@ -264,6 +313,19 @@ body {
   //background: linear-gradient(to right, #6a82fb, #fc5c7d 40%, #05dfd7); color: #fff;
 }
 
+.PromptWindow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .chat-box {
   display: flex;
   flex-direction: column;
@@ -304,12 +366,11 @@ body {
   word-wrap: break-word;
 }
 
-.flex-line {
-}
-
-#refresh {
-  margin-left: 12px;
+#submit,
+#refresh,
+#query {
   margin-right: 12px;
+  margin-left: 0;
 }
 
 .h1 {
