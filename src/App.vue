@@ -26,6 +26,13 @@
           刷新
         </button>
         <button
+          id="illustration-open"
+          @click="illustrationOpen"
+          class="btn btn-info"
+        >
+          使用说明
+        </button>
+        <button
           id="query"
           @click="query"
           v-if="isClear && isChatMode"
@@ -37,10 +44,15 @@
           更改提示词
         </button>
       </div>
+      <illustration
+        v-if="isIllustrationOpen"
+        class="PromptWindowBag"
+        @illustration-cancel="illustrationCancel"
+      />
       <PromptWindow
         v-show="isPromptOpen"
         v-model="prompt"
-        class="PromptWindow"
+        class="PromptWindowBag"
         @prompt-cancel="promptCancel"
         @prompt-save="promptSave"
         @prompt-reset="promptReset"
@@ -83,11 +95,12 @@ import { BarChart } from "echarts/charts";
 import { GridComponent, TooltipComponent } from "echarts/components";
 import EchartsComponent from "@/components/EchartsComponent.vue";
 import PromptWindow from "@/components/PromptWindow.vue";
+import Illustration from "@/components/Illustration.vue";
 
 echarts.use([CanvasRenderer, BarChart, GridComponent, TooltipComponent]);
 export default {
   name: "App",
-  components: { EchartsComponent, PromptWindow },
+  components: { EchartsComponent, PromptWindow, Illustration },
   setup() {
     const inputQuery = reactive({
       inputValue: "",
@@ -109,9 +122,16 @@ export default {
       querySent: false,
       prompt: {},
       isPromptOpen: false,
+      isIllustrationOpen: false,
     };
   },
   methods: {
+    illustrationOpen() {
+      this.isIllustrationOpen = true;
+    },
+    illustrationCancel() {
+      this.isIllustrationOpen = false;
+    },
     promptCancel() {
       this.isPromptOpen = false;
     },
@@ -313,7 +333,7 @@ body {
   //background: linear-gradient(to right, #6a82fb, #fc5c7d 40%, #05dfd7); color: #fff;
 }
 
-.PromptWindow {
+.PromptWindowBag {
   position: fixed;
   top: 0;
   left: 0;
@@ -368,6 +388,7 @@ body {
 
 #submit,
 #refresh,
+#illustration-open,
 #query {
   margin-right: 12px;
   margin-left: 0;

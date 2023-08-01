@@ -183,7 +183,7 @@ export default {
 
 .prompt-content {
   background-color: white;
-  width: 80%;
+  width: 62%;
   padding: 20px;
   border-radius: 5px;
 }
