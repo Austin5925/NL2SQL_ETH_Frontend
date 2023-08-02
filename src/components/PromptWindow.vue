@@ -113,17 +113,13 @@ export default {
       console.log(this.localPromptBackup);
     },
   },
-  mounted() {
-    // this.adjustTextareaHeight({ target: this.$el.querySelector('.prompt-input') });
-    // 这一行然并卵，初始高度还是暴力调整，todo
-    // this.$nextTick(() => {
-    //   this.adjustTextareaHeight({ target: this.$el.querySelector('.prompt-input') });
-    // });
-  },
+  mounted() {},
   methods: {
     adjustTextareaHeight(event) {
+      const maxHeight = 650;
       event.target.style.height = "auto";
-      event.target.style.height = event.target.scrollHeight + "px";
+      event.target.style.height =
+        Math.min(Math.max(event.target.scrollHeight, 220), maxHeight) + "px";
     },
     adjustTextareaHeightReal() {
       this.$nextTick(() => {

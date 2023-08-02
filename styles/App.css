@@ -1,0 +1,89 @@
+body {
+  background: linear-gradient(to right, #6a82fb, #fc5c7d 40%, #05dfd7);
+}
+
+.prompt-window-bag {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0 0 0 / 75%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+  border: 1px solid #eee;
+  background-color: #fafafa;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.message {
+  display: inline-block;
+  width: auto;
+  max-width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+.message.user {
+  margin-left: auto;
+  align-self: flex-end;
+  text-align: right;
+  background-color: #dcf8c6;
+}
+
+.message.assistant {
+  margin-right: auto;
+  align-self: flex-start;
+  text-align: left;
+  background-color: #ece5dd;
+}
+
+.message-content {
+  word-wrap: break-word;
+}
+
+#submit,
+#refresh,
+#illustration-open,
+#query {
+  margin-right: 12px;
+  margin-left: 0;
+}
+
+.h1 {
+  position: relative;
+  margin: 12px 0 15px;
+}
+
+#status,
+#message {
+  font-weight: bold;
+}
+
+.text-center {
+  color: #333;
+}
+
+input {
+  background-color: rgba(255 255 255 / 10%);
+  border: none;
+}
+
+button {
+  background: #fff;
+  color: #333;
+  font-weight: bold;
+}

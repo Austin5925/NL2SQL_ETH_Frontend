@@ -46,13 +46,13 @@
       </div>
       <illustration
         v-if="isIllustrationOpen"
-        class="PromptWindowBag"
+        class="prompt-window-bag"
         @illustration-cancel="illustrationCancel"
       />
       <PromptWindow
         v-show="isPromptOpen"
         v-model="prompt"
-        class="PromptWindowBag"
+        class="prompt-window-bag"
         @prompt-cancel="promptCancel"
         @prompt-save="promptSave"
         @prompt-reset="promptReset"
@@ -312,6 +312,7 @@ export default {
             });
         } else {
           console.log("Error:", event);
+          this.echartsRes = "生成失败，请重试";
           this.status = "连接错误";
         }
         eventSource.close();
@@ -329,97 +330,5 @@ export default {
 </script>
 
 <style>
-body {
-  //background: linear-gradient(to right, #6a82fb, #fc5c7d 40%, #05dfd7); color: #fff;
-}
-
-.PromptWindowBag {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chat-box {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  height: auto;
-  overflow: auto;
-  border: 1px solid #eee;
-  background-color: #fafafa;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
-.message {
-  display: inline-block;
-  width: auto;
-  max-width: 80%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 10px;
-}
-
-.message.user {
-  margin-left: auto;
-  align-self: flex-end;
-  text-align: right;
-  background-color: #dcf8c6;
-}
-
-.message.assistant {
-  margin-right: auto;
-  align-self: flex-start;
-  text-align: left;
-  background-color: #ece5dd;
-}
-
-.message-content {
-  word-wrap: break-word;
-}
-
-#submit,
-#refresh,
-#illustration-open,
-#query {
-  margin-right: 12px;
-  margin-left: 0;
-}
-
-.h1 {
-  position: relative;
-  margin: 12px 0 15px;
-}
-
-.form-control {
-}
-
-#status,
-#message {
-  font-weight: bold;
-}
-
-.text-center {
-  color: #333333;
-}
-
-input {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: none;
-  //color: #fff;
-}
-
-button {
-  background: #fff;
-  color: #333;
-  font-weight: bold;
-}
+@import "App.css";
 </style>
