@@ -76,11 +76,10 @@
         GPT回复：<span id="message">{{ message }}</span>
       </p>
       <p class="mt-5 mb-3">
-        <echarts-component
+        <Echarts-component
           ref="EchartsComponent"
           :data="echartsRes"
-          @append-table="drawTable"
-        ></echarts-component>
+        ></Echarts-component>
       </p>
     </div>
   </div>
@@ -247,6 +246,7 @@ export default {
               console.log(this.conversation);
 
               if (this.isClear === false) {
+                this.inputQuery.inputValue = "";
               } else if (this.isClear === true) {
                 let regex = /您的问题已经足够清楚：(.*?)。/;
                 let match =
@@ -305,7 +305,10 @@ export default {
             .then((response) => {
               console.log(response.data);
               this.echartsRes = response.data;
-              this.drawTable(response.data[0]);
+              this.$refs.EchartsComponent.drawCharts(
+                this.message,
+                this.echartsRes
+              );
             })
             .catch((error) => {
               console.log(error);
@@ -317,11 +320,6 @@ export default {
         }
         eventSource.close();
       };
-    },
-    drawTable(jsonArray) {
-      console.log("drawTable");
-      console.log(jsonArray);
-      this.$refs.echartsComponent.appendTable(jsonArray);
     },
   },
   created() {},
