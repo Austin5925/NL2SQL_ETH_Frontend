@@ -59,6 +59,52 @@ export default function Home() {
             ref={textareaRef}
             rows={1}
             onChange={handleTextareaChange}
+            className={`py-1.5 px-1 mb-1 mt-1 mx-auto min-w-[40%] max-w-xs rounded border-2 shadow-lg focus:shadow-xl transition-transform duration-500 ease-in-out ${isChatMode ? 'transform translate-y-20' : 'transform translate-y-0'} resize-none overflow-y-auto`}
+            placeholder="请输入内容..."
+          ></textarea>
+          <div className={`flex justify-center space-x-5 mt-6 mb-4`}>
+            <button style={isChatMode ? { transform: `translateY(${-dimensions.height/16 - 2.5}rem) translateX(3.75rem)`  } : {}} 
+              onTransitionEnd={() => setIsAnimating(false)}
+              className={`btn btn-primary shadow-sm transition-transform duration-500 ease-in-out`} 
+              onClick={() => setIsChatMode(!isChatMode)}>切换到{isChatMode ? "查询模式" : "聊天模式"}
+            </button>
+            <button style={isChatMode ? { transform: `translateY(${--dimensions.height/32 + 1.5}rem) translateX(15rem)`  } : {}} 
+              onTransitionEnd={() => setIsAnimating(false)}
+              onAnimationEnd={() => setIsAnimating(false)}
+              className={`btn btn-primary shadow-sm transition-transform duration-500 ease-in-out`}>{isChatMode ? "发送" : "查询"}
+            </button>
+          </div>
+          <div className="my-2 py-1"></div>
+          {/* <Illustration /> */}
+          {/* <PromptWindow /> */}
+          <p className="mt-5 mb-3">
+            连接状态：<span id="status">状态内容</span>
+          </p>
+          <div className="chat-box">
+            {/* 聊天信息列表，暂时留空 */}
+          </div>
+          <p className="mb-3">
+            GPT回复：<span id="message">消息内容</span>
+          </p>
+          <p className="mt-5 mb-3">
+            {/* <EchartsComponent /> */}
+          </p>
+        </div>
+      </div>
+      {/* <div id="app" className="min-h-screen flex flex-col">
+        <div className="text-center">
+          <div className="my-8 flex justify-center items-center">
+            <img
+              alt="Vue logo"
+              src={EthLogo}
+              className="w-24 h-24 "
+            />
+            <div className="text-4xl font-bold ml-3">ETH问数成章</div>
+          </div>
+          <textarea
+            ref={textareaRef}
+            rows={1}
+            onChange={handleTextareaChange}
             style={{ width: '100%', height: dimensions.height }}
             className={`py-1.5 px-1 mb-1 mt-1 mx-auto min-w-[40%] max-w-xs rounded border-2 shadow-lg focus:shadow-xl transition-transform duration-500 ease-in-out ${isChatMode ? 'transform translate-y-20' : 'transform translate-y-0'} resize-none overflow-y-auto`}
             placeholder="请输入内容..."
@@ -81,22 +127,18 @@ export default function Home() {
             </button>
           </div>
           <div className="my-2 py-1"></div>
-          {/* <Illustration /> */}
-          {/* <PromptWindow /> */}
           <p className="mt-5 mb-3">
             连接状态：<span id="status">状态内容</span>
           </p>
           <div className="chat-box">
-            {/* 聊天信息列表，暂时留空 */}
           </div>
           <p className="mb-3">
             GPT回复：<span id="message">消息内容</span>
           </p>
           <p className="mt-5 mb-3">
-            {/* <EchartsComponent /> */}
           </p>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
